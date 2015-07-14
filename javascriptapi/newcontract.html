@@ -24,7 +24,7 @@
 $(document).ready(function(){
 
 	var web3 = require('web3');
-	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8079"));
+	web3.setProvider(new web3.providers.HttpProvider());
 
 	// solidity code code
 	var source = "" +
@@ -57,11 +57,21 @@ console.log(web3.eth.coinbase);
 		var watch = web3.eth.filter('latest');
 
 		// create contract
-		myContract = web3.eth.contract(abi).new({data: code});
-	console.log('address: ' + myContract.address);
+		//var myContract ={};
+		//myContract = web3.eth.contract(abi).new({data: code});
+//console.log('address: ' + myContract.address);
+	
+	web3.eth.contract(abi).new({data: code}, function (err, contract) {
+		if (err) {
+console.error(err);
+			return;
+		}
+            $('#status').text("transaction sent, waiting for confirmation");
+	    myContract = contract;
+            console.log('address: ' + myContract.address);
 
-		$('#status').text("transaction sent, waiting for confirmation");
-		
+        });
+
 		watch.watch(function (err, hash) {
 		
 		    var block = web3.eth.getBlock(hash, true); 

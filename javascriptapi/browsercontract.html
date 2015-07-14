@@ -58,7 +58,6 @@ console.log($('#value').val());
 		idclick = $(this).attr("id");
 //		var code ="603d80600c6000396000f3007c01000000000000000000000000000000000000000000000000000000006000350463c6888fa18114602d57005b6007600435028060005260206000f3";
 
-		//web3.eth.sendTransaction({data: code}, function(err, address) {
 		web3.eth.sendTransaction({to: $('#recipient').val() ,value: $('#value').val()}, function(err, address) {
 		  if (!err)
 		  {
@@ -110,17 +109,26 @@ console.log(code);
 		var abi = compiled.metaCoin.info.abiDefinition;
 console.log('abi list');	
 console.log(abi);
-		// object of the contract  done manually
-		//var contractDesc = [{"name": "sendCoin(address,uint256)","type": "function","inputs": [{"name": "to","type": "address"},	{"name": "value","type": "uint256"}]}];		
 		
 		// filter oject watching last blocks mined
 		var watchblocks = web3.eth.filter('latest');
 console.log(watch);
 
 		// create a new contract
-		mysendcoin = web3.eth.contract(abi).new({data: code});
+		web3.eth.contract(abi).new({data: code}, function (err, contract) {
+			if (err) {
+console.error(err);
+				return;
+			}
+			$('#status').text("transaction sent, waiting for confirmation");
+		
+			mysendcoin = contract;
 console.log('address: ' + mysendcoin.address);
-console.log(mysendcoin);
+
+        });
+
+
+
 
 		watchblocks.watch(function (err, hash) {
 console.log(hash);		
