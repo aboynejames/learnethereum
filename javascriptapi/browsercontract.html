@@ -15,7 +15,7 @@
 * 
 *   instructions
 *    install ethereum  PPA dev release used https://github.com/ethereum/cpp-ethereum/wiki/Installing%20Clients 
-*   start up ethereum client e.g. eth -j --json-rpc-port 8079 -i
+*   start up ethereum client e.g. eth -j --json-rpc-port 8545 -i
 *   starts client in interactive mode
 * 
 * 
@@ -42,7 +42,7 @@ $(document).ready(function(){
 
  	var web3 = require('web3');
 console.log(web3);	
-	web3.setProvider(new web3.providers.HttpProvider());
+	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
  console.log(web3);  
  		// let's assume that coinbase is our account
 		web3.eth.defaultAccount = web3.eth.coinbase;
@@ -71,7 +71,6 @@ console.log(err);
 		  
 		});
 				
-		
 	});
 	
 	
@@ -90,7 +89,7 @@ console.log(err);
 			" function sendCoin(address receiver, uint amount) returns(bool successful) {\n" +
 			" if (balances[msg.sender] < amount) return false;\n" +
 			" balances[msg.sender] -= amount;\n" +
-			" balances[0x96db605d537d33847842a8f94f5473af9dd0a746] += amount;\n" +
+			" balances[receiver] += amount;\n" +
 			" return true;\n" +
 			" }\n" +
 			" function multiply(uint a) constant returns(uint d) {\n" +
@@ -177,7 +176,8 @@ console.log(web3.toDecimal(res));
 		var showballive = mysendcoin.showbalance("0x96db605d537d33847842a8f94f5473af9dd0a746");  // need to add public key know to you, ie please edit.
 console.log(showballive);	
 console.log(web3.toDecimal(showballive));
-
+		var balupdate = "new balance == " + web3.toDecimal(showballive);
+		$("#newbalance").text(balupdate);
 	});
 
 }); // closes jquery
@@ -198,6 +198,11 @@ console.log(web3.toDecimal(showballive));
 			<button id="sendether">Send Ether</button>
 		</div>
 		<div>
+			Put in addresses prefixed with '0x' and hit 'Send transaction'
+		</div>
+		
+		
+		<div>
 			<h3>Create a contract</h3>
 		</div>
 		<div>
@@ -212,12 +217,10 @@ console.log(web3.toDecimal(showballive));
 		</div>
 		<button id="dataTransaction">Send transaction</button>
 		<p>
-			<button id="viewbalance">View latest balance</button>
+			<button id="viewbalance">View latest balance</button><div id="newbalance"></div>
 
 		</p>
 	</div>
-	<div>
-		Put in addresses prefixed with '0x' and hit 'Send transaction'
-	</div>
+	
 </body>
 </html>

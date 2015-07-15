@@ -2,7 +2,6 @@
 <html>
 
 <head>
-<script type="text/javascript" src="js/bignumber.js"></script>
 <script type="text/javascript" src="js/web3.min.js"></script>   
  
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -12,8 +11,8 @@
 
  	var web3 = require('web3');
 console.log(web3);	
-	web3.setProvider(new web3.providers.HttpProvider());
- console.log(web3);  
+	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
+ //console.log(web3);  
  
 	 var version = web3.version.api;
 console.log(version); 
@@ -38,7 +37,7 @@ console.log(peerCount);
 
 	web3.eth.defaultAccount = '';
 	var defaultAccounta = web3.eth.defaultAccount;
-console.log(defaultAccounta)
+//console.log(defaultAccounta)
 
 	var defaultBlock = web3.eth.defaultBlock;
 console.log(defaultBlock); // 'latest'
@@ -48,7 +47,7 @@ console.log(coinbase); // ""
 
 	var mining = web3.eth.mining;
 console.log(mining);
-
+console.log('MINING');
 	var hashrate = web3.eth.hashrate;
 console.log(hashrate); // 493736
 
