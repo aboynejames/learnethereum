@@ -22,8 +22,7 @@ console.log(versionc);
 
 	var numbercc = web3.eth.getCompilers();
 console.log(numbercc);
-
-	var str = web3.sha3("Some ASCII string to be hashed");
+var str = web3.sha3("Some ASCII string to be hashed");
 console.log(str); // "0x536f6d6520415343494920737472696e6720746f20626520686173686564"
 
 	var hash = web3.sha3(str);
@@ -37,7 +36,7 @@ console.log(peerCount);
 
 	web3.eth.defaultAccount = '';
 	var defaultAccounta = web3.eth.defaultAccount;
-//console.log(defaultAccounta)
+console.log(defaultAccounta)
 
 	var defaultBlock = web3.eth.defaultBlock;
 console.log(defaultBlock); // 'latest'
@@ -57,7 +56,7 @@ console.log(gasPrice.toString(10));
 	var accounts = web3.eth.accounts;
 console.log(accounts); // ["0x407d73d8a49eeb85d32cf465507dd71d507100c1"] 
 
-	var balance = web3.eth.getBalance("");
+	var balance = web3.eth.getBalance("0x4409d59ed4e3ad45b515db40b5f4d8aeda009c72");
 
 console.log(balance); // instanceof BigNumber
 console.log(balance.toString(10)); // '1000000000000'
@@ -65,23 +64,31 @@ console.log(balance.toNumber()); // 1000000000000
 
 	var numberb = web3.eth.blockNumber;
 console.log(numberb);
- 
+
+	var balether =web3.fromWei(web3.eth.getBalance(web3.eth.accounts[0]), "ether")
+console.log(balether + 'ether in account');
+
+	//var gensis = web3.eth.getBlock(1028201);
+//console.log(gensis);
+
 	var storageObject = web3.eth.getStorageAt("0xb908c8a904dfa0a4294c16c0189318557cc788a6");
 console.log(storageObject);
 	var numberso= web3.toDecimal(storageObject);
 console.log(numberso);
 
-var code = web3.eth.getCode("0xb908c8a904dfa0a4294c16c0189318557cc788a6");
-console.log(code);
+//var code = web3.eth.getCode("0xb908c8a904dfa0a4294c16c0189318557cc788a6");
+//console.log(code);
 
-	var info = web3.eth.getBlock(49);
-console.log(info);
+//	var info = web3.eth.getBlock(1028201);
+//console.log(info);
 
 	var number = web3.eth.getBlockTransactionCount("0x22f56013e82ea2d1e1809aea6d5cce058847e4ae52b84255c3e6963a84bc762c");
 console.log(number); // 1
 
 	var blockNumber = 48;
 	var indexOfTransaction = 0
+
+
 
 	//var transaction = web3.eth.getTransaction(blockNumber, indexOfTransaction);
 //console.log(transaction);

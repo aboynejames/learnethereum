@@ -23,7 +23,6 @@ $(document).ready(function(){
 
 	var web3 = require('web3');
 	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
-
 	// solidity code code
 	var source = "" +
 	"contract test {\n" +
@@ -40,8 +39,12 @@ console.log(code);
 	var abi = compiled.test.info.abiDefinition;
 console.log(abi);
 
+		web3.eth.defaultAccount = 'cfa942ba595fffa0be0946a3f18dbe68b325e56e'; //web3.eth.coinbase;
+console.log(web3.eth.defaultAccount);
+console.log(web3.eth.coinbase);
+
 	var myContract;
-	// if clickeced
+	// if clicked
 	$("#createSolidityContract").click(function(e) {	
 	
 		// hide create button
@@ -49,26 +52,40 @@ console.log(abi);
 		$('#code').text(code);
 
 		// let's assume that coinbase is our account
-		web3.eth.defaultAccount = web3.eth.coinbase;
+		web3.eth.defaultAccount = 'cfa942ba595fffa0be0946a3f18dbe68b325e56e'; //web3.eth.coinbase;
+console.log(web3.eth.defaultAccount);
 console.log(web3.eth.coinbase);
 
 		var blockwatch = web3.eth.filter('latest');
 console.log(blockwatch);
 
 		web3.eth.contract(abi).new({data: code}, function (err, contract) {
+		
+			$('#status').text("transaction sent, waiting for confirmation");		
 			if (err) {
 console.error(err);
 				return;
 			}
-			$('#status').text("transaction sent, waiting for confirmation");
-			myContract = contract;
+			else if(contract.address) {
+				myContract = contract;
 console.log('address: ' + myContract.address);
+				$('#status').text('Mined!');
+				$('#call').show();
+				
+				myContract = contract;
+console.log('address: ' + myContract.address);
+	
+			}			
+			
+			
 
 		});
 
+/*
 		blockwatch.watch(function (err, hash) {
 		
 		    var block = web3.eth.getBlock(hash, true); 
+console.log(block);		    
 		    var contractMined = block.transactions.reduce(function (mined, th) {
 			// TODO: compiled code do not have 0x prefix
 console.log(mined);			
@@ -77,6 +94,7 @@ console.log(web3.eth.defaultAccount);
 			return mined || (th.from === web3.eth.defaultAccount && th.input.indexOf(code) !== -1);
 		    }, false);
 
+			contractMined = true;
 console.log(contractMined);
 
 		    if (contractMined) {
@@ -84,7 +102,7 @@ console.log(contractMined);
 			$('#call').show();
 		    }
 		});
-	
+*/	
 	});
 	
 	// if clickeced
