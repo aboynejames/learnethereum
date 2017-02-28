@@ -1,0 +1,116 @@
+ <html>
+<head>
+	<title>JavaScript API</title>
+	<script src="js/web3.min.js" type="text/javascript"></script>
+	<script src='js/bignumber.js'></script>
+	<script src='js/jquery-2.0.3.min.js'></script>
+
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
+
+<script type="text/javascript">
+/**
+*  jQuery listen for clicks and interaction
+*
+*   instructions
+*    install ethereum  PPA dev release used https://github.com/ethereum/cpp-ethereum/wiki/Installing%20Clients
+*   start up ethereum client e.g. eth -j --json-rpc-port 8545 -i
+*   starts client in interactive mode
+*
+*
+*  A   send either
+*   1a  fill in online form with address of known ethereum account  and amount of ether
+*   2a  click send
+*   3a  minestart  on command line and then minestop
+*
+*
+*  B
+*  1b  creates a new smart contract, https://dappsforbeginners.wordpress.com/tutorials/javascript-api-2/  based on this example (ie updated for JS api use and adds read balance function to contract
+*  2b  Click on Click  Create Solidity Coin Contract
+*  3b  minestart on command line  then command  minestop
+*  4b the watch function will show true once the contract has been accepted on the blockchain
+*  5b  enter a known public ethereum address into the Send some coins form and an amount
+*  6b  click send
+*  7b at command line    minestart    and then  minestop
+*
+*  C
+*   1c  click on the view balance  NB make sure the code has the public address used above.
+*   2c  the new balance is shown in console.
+*/
+$(document).ready(function(){
+
+ 	var web3 = require('web3');
+//console.log(web3);
+	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
+//console.log(web3);
+ 		// let's assume that coinbase is our account
+		var defaultacc = web3.eth.defaultAccount = '52bddcd1897e2b7516b2218e69fda38c017c29b9'; //web3.eth.coinbase;
+    $("").text(defaultacc)
+console.log(web3.eth.coinbase);
+
+  	var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+console.log(balether + 'ether in account');
+    $("#opening-balance").text(balether);
+
+	var gasPrice = web3.eth.gasPrice;
+console.log(gasPrice.toString(10));
+
+	var mysendcoin;
+
+console.log($('#recipient').val());
+console.log($('#value').val());
+
+	$("#sendether").click(function(e) {
+		e.preventDefault(e);
+
+console.log($('#recipient').val());
+console.log($('#value').val());
+		idclick = $(this).attr("id");
+
+		web3.eth.sendTransaction({to: $('#recipient').val() ,value: $('#value').val()}, function(err, address) {
+		  if (!err)
+		  {
+console.log(address); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
+var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+console.log(balether + 'ether in account');
+$("#closing-balance").text(balether);
+		  }
+		  else
+		  {
+console.log(err);
+		  }
+
+		});
+
+	});
+
+
+}); // closes jquery
+</script>
+
+</head>
+
+<body>
+	<div>
+		<div>
+			<h3>Transact Example</h3>
+		</div>
+    <div id="opening-balance">
+
+    </div>
+		<div>
+			<input id="recipient" type="text" placeholder="To">
+			<input id="value" type="text" placeholder="Value in Wei">
+		</div>
+		<div>
+			<button id="sendether">Send Ether</button>
+		</div>
+		<div>
+			Put in addresses prefixed with '0x' and hit 'Send transaction'
+		</div>
+    <div id="closing-balance">
+
+    </div>
+</body>
+</html>
