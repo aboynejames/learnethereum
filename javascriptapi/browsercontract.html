@@ -18,13 +18,7 @@
 *   start up ethereum client e.g. eth -j --json-rpc-port 8545 -i
 *   starts client in interactive mode
 *
-*
-*  A   send either
-*   1a  fill in online form with address of known ethereum account  and amount of ether
-*   2a  click send
-*   3a  minestart  on command line and then minestop
-*
-*
+
 *  B
 *  1b  creates a new smart contract, https://dappsforbeginners.wordpress.com/tutorials/javascript-api-2/  based on this example (ie updated for JS api use and adds read balance function to contract
 *  2b  Click on Click  Create Solidity Coin Contract
@@ -49,8 +43,9 @@ $(document).ready(function(){
     $("").text(defaultacc)
 console.log(web3.eth.coinbase);
 
-  	var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
 console.log(balether + 'ether in account');
+$("#opening-balance").text(balether);
 
 	var gasPrice = web3.eth.gasPrice;
 console.log(gasPrice.toString(10));
@@ -60,33 +55,20 @@ console.log(gasPrice.toString(10));
 console.log($('#recipient').val());
 console.log($('#value').val());
 
-	$("#sendether").click(function(e) {
-		e.preventDefault(e);
-
-console.log($('#recipient').val());
-console.log($('#value').val());
-		idclick = $(this).attr("id");
-
-		web3.eth.sendTransaction({to: $('#recipient').val() ,value: $('#value').val()}, function(err, address) {
-		  if (!err)
-		  {
-console.log(address); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
-
-		  }
-		  else
-		  {
-console.log(err);
-		  }
-
-		});
-
-	});
-
-
 	$("#createSolidityContract").click(function(e) {
 
 		e.preventDefault(e);
 		idclick = $(this).attr("id");
+
+    var soliditySourcea = '';
+    var solidityfile = 'smartcontracts/newbank.txt';
+
+    $.get( solidityfile, function( data ) {
+console.log('any solidity')
+        soliditySourcea = data;
+console.log(soliditySourcea);
+
+
 
 		//contract source code
 		var soliditySource = "contract metaCoin {\n"+
@@ -108,8 +90,9 @@ console.log(err);
 			"       return balances[receiver];\n" +
 			"   }\n" +
 			"}";
+
 		//contract abi object
-		var compiled = web3.eth.compile.solidity(soliditySource);
+		var compiled = web3.eth.compile.solidity(soliditySourcea);
 console.log(compiled);
 var keye = Object.keys(compiled);
 var code = compiled[keye[0]].code;
@@ -133,7 +116,7 @@ console.log('address: ' + mysendcoin.address);
 console.log('yes mined and ready for use');
         });
 
-
+    });
 
 	});
 
@@ -163,14 +146,19 @@ console.log(web3.toDecimal(res));
 	*/
 	$("#viewbalance").click(function(e) {
 
-		var showballive = mysendcoin.showbalance("0x96db605d537d33847842a8f94f5473af9dd0a746");  // need to add public key know to you, ie please edit.
+		var showballive = mysendcoin.showbalance("0x1dec65724fc29803d570459ba4dd49fe2e8f247d");  // need to add public key know to you, ie please edit.
 console.log(showballive);
 console.log(web3.toDecimal(showballive));
 		var balupdate = "new balance == " + web3.toDecimal(showballive);
 		$("#newbalance").text(balupdate);
+
+    var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+    console.log(balether + 'ether in account');
+    $("#closing-balance").text(balether);
 	});
 
 }); // closes jquery
+
 </script>
 
 </head>
@@ -178,23 +166,17 @@ console.log(web3.toDecimal(showballive));
 <body>
 	<div>
 		<div>
-			<h3>Transact Example</h3>
+			<h3>New bank Example</h3>
 		</div>
-		<div>
-			<input id="recipient" type="text" placeholder="To">
-			<input id="value" type="text" placeholder="Value in Wei">
-		</div>
-		<div>
-			<button id="sendether">Send Ether</button>
-		</div>
-		<div>
-			Put in addresses prefixed with '0x' and hit 'Send transaction'
-		</div>
-
-
 		<div>
 			<h3>Create a contract</h3>
 		</div>
+    <div id="opening-balance">
+
+    </div>
+    <div id="closing-balance">
+
+    </div>
 		<div>
 			<button id="createSolidityContract">Create Solidity Coin Contract</button>
 		</div>
@@ -207,7 +189,8 @@ console.log(web3.toDecimal(showballive));
 		</div>
 		<button id="dataTransaction">Send transaction</button>
 		<p>
-			<button id="viewbalance">View latest balance</button><div id="newbalance"></div>
+			<button id="viewbalance">View latest balance</button>
+      <div id="newbalance"></div>
 
 		</p>
 	</div>
