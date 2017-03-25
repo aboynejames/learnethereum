@@ -10,6 +10,16 @@
   <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">-->
 
+/*
+*  Listen to ethereum client
+*
+*  download geth
+*
+*  or simulate blockchain via https://github.com/ethereumjs/testrpc
+
+*
+*/
+
 </head>
 
 <body>
@@ -59,7 +69,8 @@
   	var peerCount = web3.net.peerCount;
   console.log(peerCount);
 
-  	web3.eth.defaultAccount = '52bddcd1897e2b7516b2218e69fda38c017c29b9';
+//  	web3.eth.defaultAccount = '52bddcd1897e2b7516b2218e69fda38c017c29b9';
+  	web3.eth.defaultAccount = '051575d44d13cf3c3f47bf110c1fdf12e3e38cb0';
   	var defaultAccounta = web3.eth.defaultAccount;
     $("#coinbase").text(defaultAccounta);
   console.log(defaultAccounta)
@@ -93,6 +104,7 @@
 
   var balether =web3.fromWei(web3.eth.getBalance(web3.eth.accounts[0]), "ether")
 console.log(balether + 'ether in account');
+    $("#balance").text(balether);
 
   	var numberb = web3.eth.blockNumber;
   console.log(numberb);

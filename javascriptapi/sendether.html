@@ -14,7 +14,8 @@
 *  jQuery listen for clicks and interaction
 *
 *   instructions
-*    install ethereum  PPA dev release used https://github.com/ethereum/cpp-ethereum/wiki/Installing%20Clients
+*    install ethereum wallket / client geth
+*  or simulate blockchain via https://github.com/ethereumjs/testrpc
 *   start up ethereum client e.g. eth -j --json-rpc-port 8545 -i
 *   starts client in interactive mode
 *
@@ -25,18 +26,6 @@
 *   3a  minestart  on command line and then minestop
 *
 *
-*  B
-*  1b  creates a new smart contract, https://dappsforbeginners.wordpress.com/tutorials/javascript-api-2/  based on this example (ie updated for JS api use and adds read balance function to contract
-*  2b  Click on Click  Create Solidity Coin Contract
-*  3b  minestart on command line  then command  minestop
-*  4b the watch function will show true once the contract has been accepted on the blockchain
-*  5b  enter a known public ethereum address into the Send some coins form and an amount
-*  6b  click send
-*  7b at command line    minestart    and then  minestop
-*
-*  C
-*   1c  click on the view balance  NB make sure the code has the public address used above.
-*   2c  the new balance is shown in console.
 */
 $(document).ready(function(){
 
@@ -45,13 +34,12 @@ $(document).ready(function(){
 	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
 //console.log(web3);
  		// let's assume that coinbase is our account
-		var defaultacc = web3.eth.defaultAccount = '52bddcd1897e2b7516b2218e69fda38c017c29b9'; //web3.eth.coinbase;
-    $("").text(defaultacc)
-console.log(web3.eth.coinbase);
+		var defaultacc = web3.eth.defaultAccount = '051575d44d13cf3c3f47bf110c1fdf12e3e38cb0';
 
-  	var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
-console.log(balether + 'ether in account');
+    var balether = web3.fromWei(web3.eth.getBalance('051575d44d13cf3c3f47bf110c1fdf12e3e38cb0'), "ether");
+    console.log(balether + 'ether in account');
     $("#opening-balance").text(balether);
+console.log(web3.eth.coinbase);
 
 	var gasPrice = web3.eth.gasPrice;
 console.log(gasPrice.toString(10));
@@ -72,7 +60,7 @@ console.log($('#value').val());
 		  if (!err)
 		  {
 console.log(address); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
-var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+var balether = web3.fromWei(web3.eth.getBalance('051575d44d13cf3c3f47bf110c1fdf12e3e38cb0'), "ether")
 console.log(balether + 'ether in account');
 $("#closing-balance").text(balether);
 		  }
