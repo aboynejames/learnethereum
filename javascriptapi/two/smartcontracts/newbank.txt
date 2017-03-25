@@ -1,0 +1,42 @@
+/**
+*  Build a new bank
+*  Smart Contract
+*
+**/
+pragma solidity ^0.4.4;
+
+contract metaCoin {
+
+   mapping (address => uint) public balances;
+
+   function metaCoin() {
+
+    balances[msg.sender] = 190000;
+    balances[0x96db605d537d33847842a8f94f5473af9dd0a746] = 8000;
+
+   }
+
+   function sendCoin(address receiver, uint amount) returns(bool successful) {
+
+    if (balances[msg.sender] < amount) return false;
+
+      balances[msg.sender] -= amount;
+      balances[receiver] += amount;
+
+      return true;
+
+   }
+
+   function multiply(uint a) constant returns(uint d) {
+
+         return a * 7;
+
+     }
+
+   function showbalance(address receiver) constant returns(uint d) {
+
+         return balances[receiver];
+
+     }
+
+  }

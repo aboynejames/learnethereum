@@ -1,0 +1,104 @@
+ <html>
+<head>
+	<title>JavaScript API</title>
+	<script src="js/web3.min.js" type="text/javascript"></script>
+	<script src='js/bignumber.js'></script>
+	<script src='js/jquery-2.0.3.min.js'></script>
+
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
+
+<script type="text/javascript">
+/**
+*  jQuery listen for clicks and interaction
+*
+*   instructions
+*    install ethereum wallket / client geth
+*  or simulate blockchain via https://github.com/ethereumjs/testrpc
+*   start up ethereum client e.g. eth -j --json-rpc-port 8545 -i
+*   starts client in interactive mode
+*
+*
+*  A   send either
+*   1a  fill in online form with address of known ethereum account  and amount of ether
+*   2a  click send
+*   3a  minestart  on command line and then minestop
+*
+*
+*/
+$(document).ready(function(){
+
+ 	var web3 = require('web3');
+//console.log(web3);
+	web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
+//console.log(web3);
+ 		// let's assume that coinbase is our account
+		var defaultacc = web3.eth.defaultAccount = '7adee4cfcc7f39bd7a52943fdbc6e6742f1cf2a3';
+
+    var balether = web3.fromWei(web3.eth.getBalance('7adee4cfcc7f39bd7a52943fdbc6e6742f1cf2a3'), "ether");
+    console.log(balether + 'ether in account');
+    $("#opening-balance").text(balether);
+console.log(web3.eth.coinbase);
+
+	var gasPrice = web3.eth.gasPrice;
+console.log(gasPrice.toString(10));
+
+	var mysendcoin;
+
+console.log($('#recipient').val());
+console.log($('#value').val());
+
+	$("#sendether").click(function(e) {
+		e.preventDefault(e);
+
+console.log($('#recipient').val());
+console.log($('#value').val());
+		idclick = $(this).attr("id");
+
+		web3.eth.sendTransaction({to: $('#recipient').val() ,value: $('#value').val()}, function(err, address) {
+		  if (!err)
+		  {
+console.log(address); // "0x7f9fade1c0d57a7af66ab4ead7c2eb7b11a91385"
+var balether = web3.fromWei(web3.eth.getBalance('7adee4cfcc7f39bd7a52943fdbc6e6742f1cf2a3'), "ether")
+console.log(balether + 'ether in account');
+$("#closing-balance").text(balether);
+		  }
+		  else
+		  {
+console.log(err);
+		  }
+
+		});
+
+	});
+
+
+}); // closes jquery
+</script>
+
+</head>
+
+<body>
+	<div>
+		<div>
+			<h3>Transact Example</h3>
+		</div>
+    <div id="opening-balance">
+
+    </div>
+		<div>
+			<input id="recipient" type="text" placeholder="To">
+			<input id="value" type="text" placeholder="Value in Wei">
+		</div>
+		<div>
+			<button id="sendether">Send Ether</button>
+		</div>
+		<div>
+			Put in addresses prefixed with '0x' and hit 'Send transaction'
+		</div>
+    <div id="closing-balance">
+
+    </div>
+</body>
+</html>
