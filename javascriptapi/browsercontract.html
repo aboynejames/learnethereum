@@ -151,13 +151,13 @@ console.log(web3.toDecimal(res));
 	*/
 	$("#viewbalance").click(function(e) {
 
-		var showballive = mysendcoin.showbalance("0x1dec65724fc29803d570459ba4dd49fe2e8f247d");  // need to add public key know to you, ie please edit.
+		var showballive = mysendcoin.showbalance("0x7adee4cfcc7f39bd7a52943fdbc6e6742f1cf2a3");  // need to add public key know to you, ie please edit.
 console.log(showballive);
 console.log(web3.toDecimal(showballive));
 		var balupdate = "new balance == " + web3.toDecimal(showballive);
 		$("#newbalance").text(balupdate);
 
-    var balether = web3.fromWei(web3.eth.getBalance('52bddcd1897e2b7516b2218e69fda38c017c29b9'), "ether")
+    var balether = web3.fromWei(web3.eth.getBalance('051575d44d13cf3c3f47bf110c1fdf12e3e38cb0'), "ether")
     console.log(balether + 'ether in account');
     $("#closing-balance").text(balether);
 	});
