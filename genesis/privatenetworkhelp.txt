@@ -1,5 +1,7 @@
 PRIME
 
+geth  --networkid 12345 --datadir ~/.ethereum_experiment
+
 personal.newAccount("add your own password")
 
 "0x52bddcd1897e2b7516b2218e69fda38c017c29b9"
